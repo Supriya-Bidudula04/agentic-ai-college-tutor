@@ -16,7 +16,10 @@ def home():
 @app.route("/healthz")
 def health():
     return {"status": "healthy"}
-
+@app.route("/ask", methods=["POST"])
+def ask():
+    # your AI logic here
+    pass
 # Set your OpenAI API key from environment variable
 openai.api_key = os.environ.get("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")
 
