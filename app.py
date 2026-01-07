@@ -8,7 +8,10 @@ app = Flask(__name__)
 CORS(app)  # Allow frontend to make requests
 @app.route("/")
 def home():
-    return "Chatbot backend is running!"
+    return jsonify({
+        "status":"Backend is running 🚀",
+        "message":"Agentic AI College Tutor API"
+    })
 
 @app.route("/healthz")
 def health():
