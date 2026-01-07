@@ -6,22 +6,22 @@ import os
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # Allow frontend to make requests
-@app.route("/")
-def home():
-    return jsonify({
-        "status":"Backend is running 🚀",
-        "message":"Agentic AI College Tutor API"
-    })
 
+# Health check route
 @app.route("/healthz")
 def health():
     return {"status": "healthy"}
-@app.route("/ask", methods=["POST"])
-def ask():
-    # your AI logic here
-    pass
+
+# Root route
+@app.route("/")
+def home():
+    return jsonify({
+        "status": "Backend is running 🚀",
+        "message": "Agentic AI College Tutor API"
+    })
+
 # Set your OpenAI API key from environment variable
-openai.api_key = os.environ.get("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")
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Tutor agent endpoint
 @app.route("/tutor", methods=["POST"])
@@ -32,8 +32,10 @@ def tutor_agent():
     
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role":"system","content":"You are a helpful programming tutor."},
-                  {"role":"user","content":prompt}]
+        messages=[
+            {"role": "system", "content": "You are a helpful programming tutor."},
+            {"role": "user", "content": prompt}
+        ]
     )
     
     answer = response.choices[0].message.content
@@ -48,8 +50,10 @@ def practice_agent():
     
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role":"system","content":"You are a coding practice generator."},
-                  {"role":"user","content":prompt}]
+        messages=[
+            {"role": "system", "content": "You are a coding practice generator."},
+            {"role": "user", "content": prompt}
+        ]
     )
     
     answer = response.choices[0].message.content
@@ -64,12 +68,15 @@ def roadmap_agent():
     
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role":"system","content":"You are a roadmap generator."},
-                  {"role":"user","content":prompt}]
+        messages=[
+            {"role": "system", "content": "You are a roadmap generator."},
+            {"role": "user", "content": prompt}
+        ]
     )
     
     answer = response.choices[0].message.content
     return jsonify({"reply": answer})
 
+# Run the app
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=10000)
